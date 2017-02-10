@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context = ".SplashActivity">
+
+    <ImageView
+        android:src="@drawable/launcher"
+        android:layout_gravity="center"
+        android:layout_height="80dp"
+        android:layout_width="80dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView">
+    </ImageView>
+
+    <ImageView
+        android:layout_height="20dp"
+        android:layout_width="20dp"
+        android:src="@drawable/status"
+        android:layout_marginTop="82dp"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/imageView"
+        android:layout_alignStart="@+id/imageView" />
+
+    <TextView
+        android:layout_height="20dp"
+        android:layout_width="match_parent"
+        android:text="Loading..."
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView2"
+        android:layout_marginStart="10dp" />
+
+
+</RelativeLayout>

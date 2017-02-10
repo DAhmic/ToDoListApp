@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ToDoList</string>
+    <string name="application_name">To-Do List</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+    <string name="viewLists">View lists</string>
+    <string name="viewTasks">View tasks</string>
+    <string name="allLists">To-Do lists</string>
+    <string name="allTasks">Tasks</string>
+    <string name="newList">New list</string>
+    <string name="newTask">New task</string>
+    <string name="newItem">New item</string>
+    <string name="done">Done</string>
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
+    <string name="sortPriority">Sort by priority</string>
+    <string name="sortDueDate">Sort by due date</string>
+    <string name="viewUnfinished">View unfinished</string>
+    <string name="viewCompleted">View finished</string>
+    <string name="changeListName">Rename</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="priority">Priority</string>
+    <string name="note">Note</string>
+</resources>

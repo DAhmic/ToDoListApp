@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4f7bff</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="siva">#c2c2c2</color>
+    <color name="darkGreen">#FF0D3B0E</color>
+    <color name="green">#FF367639</color>
+    <color name="tirkizna">#FF47B38A</color>
+    <color name="highlight2">#FFD0D7D0</color>
+    <color name="highlight">#5b6982</color>
+    <color name="darkBlue">#1f375e</color>
+</resources>
