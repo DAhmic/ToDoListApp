@@ -31,7 +31,7 @@ import com.example.korisnik.todooo.db.Task;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EditTaskTypeOne extends AppCompatActivity implements View.OnClickListener{
+public class EditTaskTypeOne extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;

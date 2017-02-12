@@ -126,7 +126,14 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
                     startActivity(intent);
                 }
                 else if(odabrani_template == 2){
-                    Toast.makeText(getApplicationContext(), "Lista itema", Toast.LENGTH_LONG).show();
+                    String idListeQuery2 = String.valueOf(idListe);
+                    String naziv_taska2 = ((TextView) (view.findViewById(R.id.task_name))).getText().toString();
+                    String idT2 = ((TextView) (view.findViewById(R.id.task_id))).getText().toString();
+                    Intent intent = new Intent(ListTask.this, EditTaskTypeTwo.class);
+                    intent.putExtra("idTaska", idT2);
+                    intent.putExtra("nazivTaska", naziv_taska2);
+                    intent.putExtra("idListeTaska", idListeQuery2);
+                    startActivity(intent);
                 }
             }
         });
