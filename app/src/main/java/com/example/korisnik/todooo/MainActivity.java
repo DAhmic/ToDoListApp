@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDodaj 	= (FloatingActionButton)findViewById(R.id.btnAddLista);
 
         btnDodaj.setOnClickListener(this);
-        //klik na listu otvara njene taskove... trenutno ne :P
+        //klik na listu otvara njene taskove
         listeView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -75,6 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         nvDrawer = (NavigationView) findViewById(R.id.navigation_view);
+
+        //opcije change list name i delete list nisu dostupne
+        Menu menuNav = nvDrawer.getMenu();
+        MenuItem item2 = menuNav.findItem(R.id.id_changeListName);
+        item2.setEnabled(false);
+        MenuItem item3 = menuNav.findItem(R.id.id_deleteList);
+        item3.setEnabled(false);
+
         setupDrawerContent(nvDrawer);
 
         updateUI();
@@ -128,6 +136,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.id_dueDate:
                 startActivity(new Intent(getApplicationContext(),AllTasks.class));
+                break;
+            case R.id.id_unfinished:
+                startActivity(new Intent(getApplicationContext(), UnfinishedTasks.class));
+                break;
+            case R.id.id_completed:
+                startActivity(new Intent(getApplicationContext(), FinishedTasks.class));
                 break;
             default:
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

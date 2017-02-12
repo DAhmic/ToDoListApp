@@ -23,6 +23,11 @@
                 android:title="Change List Name"
                 android:icon="@drawable/changelistname">
             </item>
+            <item
+                android:id="@+id/id_deleteList"
+                android:title="Delete List"
+                android:icon="@drawable/changelistname">
+            </item>
         </menu>
     </item>
 

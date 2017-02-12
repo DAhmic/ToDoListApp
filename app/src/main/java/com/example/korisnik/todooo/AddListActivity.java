@@ -72,6 +72,14 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                 R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         nvDrawer = (NavigationView) findViewById(R.id.navigation_view);
+
+        //opcije change list name i delete list nisu dostupne na pocetnom meniju
+        Menu menuNav = nvDrawer.getMenu();
+        MenuItem item2 = menuNav.findItem(R.id.id_changeListName);
+        item2.setEnabled(false);
+        MenuItem item3 = menuNav.findItem(R.id.id_deleteList);
+        item3.setEnabled(false);
+
         setupDrawerContent(nvDrawer);
     }
 
@@ -170,6 +178,12 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.id_dueDate:
                 startActivity(new Intent(getApplicationContext(),AllTasks.class));
+                break;
+            case R.id.id_unfinished:
+                startActivity(new Intent(getApplicationContext(), UnfinishedTasks.class));
+                break;
+            case R.id.id_completed:
+                startActivity(new Intent(getApplicationContext(), FinishedTasks.class));
                 break;
             default:
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

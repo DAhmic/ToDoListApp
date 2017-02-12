@@ -23,45 +23,52 @@ import java.util.List;
  * Created by Korisnik on 10.2.2017..
  */
 
-public class CustomAdapter extends ArrayAdapter<String> {
+public class CustomAdapter extends ArrayAdapter<Integer> {
 
     private Context context;
-    private ArrayList<String> nazivi;
+    private ArrayList<Integer> idevi;
     private ListaHelper listaHelper;
 
-    public CustomAdapter(Context context, ArrayList<String> nazivi){
-        super(context, R.layout.task_prikaz, nazivi);
+    public CustomAdapter(Context context, ArrayList<Integer> idevi){
+        super(context, R.layout.task_prikaz, idevi);
         listaHelper = new ListaHelper(context);
         this.context = context;
-        this.nazivi = new ArrayList<String>();
-        this.nazivi = nazivi;
+        this.idevi = new ArrayList<Integer>();
+        this.idevi = idevi;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.task_prikaz, parent, false);
+        TextView skriveniID = (TextView)rowView.findViewById(R.id.task_id);
         TextView nazivTaska = (TextView) rowView.findViewById(R.id.task_name);
         ImageView uzvicnik = (ImageView) rowView.findViewById(R.id.uzvicnik);
         int pTaska = 0; //prioritet
+        String nTaska = ""; //naziv
 
-        nazivTaska.setText(nazivi.get(position));
-        String tekst = nazivTaska.getText().toString();
+        int idTaska = idevi.get(position);
+//        nazivTaska.setText(nazivi.get(position));
+        String tekst = String.valueOf(idTaska);
 
         try {
             SQLiteDatabase db = listaHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_PRIORITY + " FROM Task WHERE " + Task.TaskEntry.COL_TASK_NAME + " = ?", new String[]{tekst});
+            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_NAME + ", " + Task.TaskEntry.COL_TASK_PRIORITY + " FROM Task WHERE " + Task.TaskEntry._ID + " = " + idTaska, new String[]{});
             if (cursor.moveToFirst()) {
                 do {
-                    pTaska = cursor.getInt(0);
+                    nTaska = cursor.getString(0);
+                    pTaska = cursor.getInt(1);
                 } while (cursor.moveToNext());
             }
             cursor.close();
             db.close();
         }
         catch (Exception ex){
-            Log.d("Dina", "Koji ti je djavo");
+            Log.d("Dina", "Greska iz custom adaptera");
         }
+
+        skriveniID.setText(tekst);
+        nazivTaska.setText(nTaska);
 
         //podesi slicicu u zavisnosti od prioriteta
         if(pTaska == 1)

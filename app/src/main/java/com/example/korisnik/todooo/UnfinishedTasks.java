@@ -1,6 +1,5 @@
 package com.example.korisnik.todooo;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,35 +15,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.korisnik.todooo.db.Lista;
 import com.example.korisnik.todooo.db.ListaHelper;
 import com.example.korisnik.todooo.db.Task;
 
 import java.util.ArrayList;
 
-public class AllTasks extends AppCompatActivity {
-
+public class UnfinishedTasks extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView nvDrawer;
 
-    private static final String TAG = "AllTasks";
+    private static final String TAG = "UnfinishedTasks";
     private ListaHelper listaHelper;
     private ListView taskoviView;
-    //private ArrayAdapter<String> mAdapter;
     private CustomAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.all_tasks);
+        setContentView(R.layout.unfinished_tasks);
 
         listaHelper = new ListaHelper(this);
-        taskoviView = (ListView) findViewById(R.id.taskovi_po_datumu);
+        taskoviView = (ListView) findViewById(R.id.taskovi_unfinished);
 
         //za navigation drawer
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -97,7 +92,7 @@ public class AllTasks extends AppCompatActivity {
                 cursor3.close();
                 db3.close();
 
-                Intent intent = new Intent(AllTasks.this, EditTaskFromAllTasks.class);
+                Intent intent = new Intent(UnfinishedTasks.this, EditTaskFromUnfinishedTasks.class);
                 intent.putExtra("idTaska", idT);
                 intent.putExtra("nazivTaska", naziv_taska);
                 intent.putExtra("datumTaska", datumTaska);
@@ -179,19 +174,17 @@ public class AllTasks extends AppCompatActivity {
     private void updateUI(){
         //ArrayList<String> imenaTaskova = new ArrayList<>();
         ArrayList<Integer> idTaskova = new ArrayList<>();
+        String q = "to do\n";
         SQLiteDatabase db = listaHelper.getReadableDatabase();
         // Query the database
-        //Cursor cursor = db.query(Task.TaskEntry.TABLE, new String[] {Task.TaskEntry._ID, Task.TaskEntry.COL_TASK_NAME}, null, null, null, null, null);
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE date IS NOT NULL ORDER BY datetime(date)", new String[]{});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM Task WHERE status = ?", new String[]{q});
 
         // Iterate the results
         while (cursor.moveToNext()) {
             int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
             idTaskova.add(cursor.getInt(indeksi));
-
         }
         if(mAdapter==null){
-            //mAdapter = new ArrayAdapter<>(this,R.layout.task_prikaz, R.id.task_name, imenaTaskova);
             mAdapter = new CustomAdapter(this, idTaskova);
             taskoviView.setAdapter(mAdapter);
         }
@@ -202,6 +195,6 @@ public class AllTasks extends AppCompatActivity {
         }
         cursor.close();
         db.close();
-
     }
+
 }

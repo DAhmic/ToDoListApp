@@ -57,6 +57,14 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
                 R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         nvDrawer = (NavigationView) findViewById(R.id.navigation_view);
+
+        //opcije change list name i delete list nisu dostupne
+        Menu menuNav = nvDrawer.getMenu();
+        MenuItem item2 = menuNav.findItem(R.id.id_changeListName);
+        item2.setEnabled(false);
+        MenuItem item3 = menuNav.findItem(R.id.id_deleteList);
+        item3.setEnabled(false);
+
         setupDrawerContent(nvDrawer);
     }
 
@@ -151,6 +159,12 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.id_dueDate:
                 startActivity(new Intent(getApplicationContext(),AllTasks.class));
+                break;
+            case R.id.id_unfinished:
+                startActivity(new Intent(getApplicationContext(), UnfinishedTasks.class));
+                break;
+            case R.id.id_completed:
+                startActivity(new Intent(getApplicationContext(), FinishedTasks.class));
                 break;
             default:
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
