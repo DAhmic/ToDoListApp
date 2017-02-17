@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/task_name"
-                android:layout_width="match_parent"
+                android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:layout_alignParentLeft="true"
@@ -37,12 +37,22 @@
 
             <TextView
                 android:id="@+id/task_id"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
                 android:text="task"
                 android:visibility="invisible"
                 />
+
+            <Button
+                android:layout_weight="0"
+                android:id="@+id/btnDelete"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/notdone"
+                android:focusable="false"/>
 
         </LinearLayout>
     </LinearLayout>

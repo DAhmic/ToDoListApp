@@ -5,12 +5,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/viewLists"
-            android:title="View Lists"
+            android:title="View lists"
             android:icon="@drawable/lists"
             ></item>
         <item
             android:id="@+id/viewTasks"
-            android:title="View Tasks"
+            android:title="View tasks"
             android:icon="@drawable/task"
             ></item>
     </group>
@@ -20,13 +20,13 @@
         <menu>
             <item
                 android:id="@+id/id_changeListName"
-                android:title="Change List Name"
+                android:title="Change list name"
                 android:icon="@drawable/changelistname">
             </item>
             <item
                 android:id="@+id/id_deleteList"
-                android:title="Delete List"
-                android:icon="@drawable/changelistname">
+                android:title="Delete list"
+                android:icon="@drawable/delete">
             </item>
         </menu>
     </item>
@@ -54,7 +54,7 @@
 
             <item
                 android:id="@+id/id_completed"
-                android:title="View Completed"
+                android:title="View finished"
                 android:icon="@drawable/complete">
             </item>
         </menu>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,19 +38,34 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         this.idevi = idevi;
     }
 
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(final int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.task_prikaz, parent, false);
         TextView skriveniID = (TextView)rowView.findViewById(R.id.task_id);
         TextView nazivTaska = (TextView) rowView.findViewById(R.id.task_name);
         ImageView uzvicnik = (ImageView) rowView.findViewById(R.id.uzvicnik);
+        final Button btnBrisi = (Button) rowView.findViewById(R.id.btnDelete);
         int pTaska = 0; //prioritet
         String nTaska = ""; //naziv
 
         int idTaska = idevi.get(position);
 //        nazivTaska.setText(nazivi.get(position));
         String tekst = String.valueOf(idTaska);
+        btnBrisi.setTag(tekst);
+        //brisanje taska
+        btnBrisi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tag_del = (String) view.getTag();
+                idevi.remove(position);
+                SQLiteDatabase db = listaHelper.getWritableDatabase();
+                db.delete(Task.TaskEntry.TABLE, Task.TaskEntry._ID + " = ?", new String[]{tag_del});
+                db.close();
+                CustomAdapter.super.notifyDataSetChanged();
+            }
+        });
 
         try {
             SQLiteDatabase db = listaHelper.getReadableDatabase();

@@ -112,6 +112,7 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                 db.close();
 
                 Intent intent = new Intent(this, MainActivity.class);
+                this.finish();
                 startActivity(intent);
             }
 

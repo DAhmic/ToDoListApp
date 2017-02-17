@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Start activity
             startActivity(intent);
             // Finish this activity
-            this.finish();
+            //this.finish();
         }
 
     }

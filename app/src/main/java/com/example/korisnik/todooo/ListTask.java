@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
     //private ArrayAdapter<String> mAdapter;
     private CustomAdapter mAdapter;
     private FloatingActionButton btnDodaj;
+    private Button btnBrisi;
 
     private int idListe = 0;
     private int odabrani_template = 0;
@@ -55,6 +57,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
         listaHelper = new ListaHelper(this);
         taskoviView = (ListView) findViewById(R.id.taskovi_todo);
         btnDodaj = (FloatingActionButton)findViewById(R.id.btnAddTask);
+        btnBrisi = (Button)findViewById(R.id.btnDelete);
 
         btnDodaj.setOnClickListener(this);
 
@@ -298,4 +301,10 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
             db.close();
         }
 
+//    public void deleteTask(int idT){
+//        String idTaskaa = String.valueOf(idT);
+//        SQLiteDatabase db = listaHelper.getWritableDatabase();
+//        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry._ID + " = ?", new String[]{idTaskaa});
+//        db.close();
+//    }
 }

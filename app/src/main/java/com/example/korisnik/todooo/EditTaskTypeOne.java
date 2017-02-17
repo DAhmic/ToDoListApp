@@ -137,6 +137,8 @@ public class EditTaskTypeOne extends AppCompatActivity implements View.OnClickLi
 
         //postavljanje dobivenih informacija na formu
         taskName.setText(nazivTaska);
+        int pos = taskName.getText().length();
+        taskName.setSelection(pos);
         taskDate.setText(datumPrikaz);
         taskTime.setText(vrijemeTaska);
         if(pTaska == 1)

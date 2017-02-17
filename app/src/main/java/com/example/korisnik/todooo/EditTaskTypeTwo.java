@@ -73,6 +73,8 @@ public class EditTaskTypeTwo extends AppCompatActivity implements View.OnClickLi
 
         //postavljanje dobivenih informacija na formu
         itemName.setText(nazivTaska);
+        int pos = itemName.getText().length();
+        itemName.setSelection(pos);
 
     }
 

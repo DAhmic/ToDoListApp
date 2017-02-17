@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.korisnik.todooo.db.ListaHelper;
 import com.example.korisnik.todooo.db.Task;
@@ -66,6 +67,7 @@ public class UnfinishedTasks extends AppCompatActivity {
         taskoviView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 String naziv_taska = ((TextView)(view.findViewById(R.id.task_name))).getText().toString();
                 String idT = ((TextView)(view.findViewById(R.id.task_id))).getText().toString();
                 int idTaska = Integer.parseInt(idT);

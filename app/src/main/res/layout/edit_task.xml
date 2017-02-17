@@ -44,9 +44,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="5dp" />
                 <AutoCompleteTextView
-                    android:hint="Name"
+                    android:hint="I want to..."
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/editTaskName"
                     android:textColor="@android:color/black"
                     android:layout_alignParentLeft="true"
@@ -58,7 +58,9 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/mybutton"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
 
@@ -76,7 +78,7 @@
                 <Button
                     android:text="Date"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/button_date"
                     android:onClick="showDatePickerDialog"
                     android:elevation="4dp"
@@ -92,7 +94,9 @@
                     android:backgroundTint="@android:drawable/progress_horizontal"
                     android:fontFamily="serif"
                     android:textAlignment="textStart"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
 
@@ -111,7 +115,7 @@
                     android:text="Time"
                     android:layout_width="match_parent"
                     android:onClick="showTimePickerDialog"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/button_time"
                     android:elevation="4dp"
                     android:visibility="visible"
@@ -126,7 +130,9 @@
                     android:backgroundTint="@android:drawable/progress_horizontal"
                     android:fontFamily="serif"
                     android:textAlignment="textStart"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
 
@@ -143,7 +149,7 @@
                     android:layout_marginStart="5dp" />
                 <Spinner
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/edit_spinner_priority"
                     android:layout_weight="1"
                     android:spinnerMode="dropdown"
@@ -157,7 +163,9 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="serif"
                     android:textAlignment="textStart"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
 
@@ -174,7 +182,7 @@
                     android:layout_marginStart="5dp" />
                 <Spinner
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/edit_spinner_status"
                     android:layout_weight="1"
                     android:spinnerMode="dropdown"
@@ -188,7 +196,9 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="serif"
                     android:textAlignment="textStart"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
 
@@ -206,7 +216,7 @@
                 <EditText
                     android:hint="Note"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:id="@+id/edit_textnote"
                     android:textColor="@android:color/black"
                     android:layout_alignParentLeft="true"
@@ -218,7 +228,9 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/mybutton"
-                    android:layout_marginEnd="15dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -240,7 +252,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end"
-            app:srcCompat="@drawable/check2"
+            app:srcCompat="@drawable/check4"
             android:scaleType="fitCenter"
             />
 
