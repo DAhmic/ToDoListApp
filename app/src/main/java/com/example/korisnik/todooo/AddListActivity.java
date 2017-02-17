@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.example.korisnik.todooo.db.Lista;
 import com.example.korisnik.todooo.db.ListaHelper;
 
+import java.security.PrivilegedExceptionAction;
+
 public class AddListActivity extends AppCompatActivity implements View.OnClickListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -73,12 +75,14 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         nvDrawer = (NavigationView) findViewById(R.id.navigation_view);
 
-        //opcije change list name i delete list nisu dostupne na pocetnom meniju
+        //opcije change list name, delete list i delete finished tasks nisu dostupne na pocetnom meniju
         Menu menuNav = nvDrawer.getMenu();
         MenuItem item2 = menuNav.findItem(R.id.id_changeListName);
         item2.setEnabled(false);
         MenuItem item3 = menuNav.findItem(R.id.id_deleteList);
         item3.setEnabled(false);
+        MenuItem item4 = menuNav.findItem(R.id.id_delete_completed);
+        item4.setEnabled(false);
 
         setupDrawerContent(nvDrawer);
     }
@@ -92,28 +96,33 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
             //template
             if(odabrani == 0){
                 Toast.makeText(getApplicationContext(), "Choose template for your list", Toast.LENGTH_LONG).show();
-
+            }
+            else if(listaTextValue.equals("") || listaTextValue.equals(null)){
+                Toast.makeText(getApplicationContext(), "Enter the list name", Toast.LENGTH_LONG).show();
             }
             else {
-                // Add text to the database
-                SQLiteDatabase db = listaHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(Lista.ListaEntry.COL_LISTA_NAME, listaTextValue);
-                values.put(Lista.ListaEntry.COL_LISTA_TYPE, odabrani);
-                db.insertWithOnConflict(Lista.ListaEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                db.close();
+                try {
+                    // Add text to the database
+                    SQLiteDatabase db = listaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Lista.ListaEntry.COL_LISTA_NAME, listaTextValue);
+                    values.put(Lista.ListaEntry.COL_LISTA_TYPE, odabrani);
+                    db.insertWithOnConflict(Lista.ListaEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
+                    // Display success information
+                    itemTemplate.getBackground().clearColorFilter();
+                    taskTemplate.getBackground().clearColorFilter();
+                    listaName.setText("");
+                    Toast.makeText(getApplicationContext(), "New List added!", Toast.LENGTH_LONG).show();
+                    db.close();
 
-                // Display success information
-                itemTemplate.getBackground().clearColorFilter();
-                taskTemplate.getBackground().clearColorFilter();
-                listaName.setText("");
-                Toast.makeText(getApplicationContext(), "New List added!", Toast.LENGTH_LONG).show();
-                // Close the database
-                db.close();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    this.finish();
+                    startActivity(intent);
+                }
+                catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), "You already have list with that name!", Toast.LENGTH_LONG).show();
+                }
 
-                Intent intent = new Intent(this, MainActivity.class);
-                this.finish();
-                startActivity(intent);
             }
 
         }

@@ -51,7 +51,7 @@
                 android:layout_height="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/notdone"
+                android:background="@drawable/notdonee"
                 android:focusable="false"/>
 
         </LinearLayout>

@@ -1,8 +1,10 @@
 package com.example.korisnik.todooo;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,39 +51,60 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         final Button btnBrisi = (Button) rowView.findViewById(R.id.btnDelete);
         int pTaska = 0; //prioritet
         String nTaska = ""; //naziv
+        String sTaska = ""; //status
 
         int idTaska = idevi.get(position);
 //        nazivTaska.setText(nazivi.get(position));
-        String tekst = String.valueOf(idTaska);
-        btnBrisi.setTag(tekst);
-        //brisanje taska
-        btnBrisi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String tag_del = (String) view.getTag();
-                idevi.remove(position);
-                SQLiteDatabase db = listaHelper.getWritableDatabase();
-                db.delete(Task.TaskEntry.TABLE, Task.TaskEntry._ID + " = ?", new String[]{tag_del});
-                db.close();
-                CustomAdapter.super.notifyDataSetChanged();
-            }
-        });
+        final String tekst = String.valueOf(idTaska);
 
         try {
             SQLiteDatabase db = listaHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_NAME + ", " + Task.TaskEntry.COL_TASK_PRIORITY + " FROM Task WHERE " + Task.TaskEntry._ID + " = " + idTaska, new String[]{});
+            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_NAME + ", " + Task.TaskEntry.COL_TASK_PRIORITY + ", " + Task.TaskEntry.COL_TASK_STATUS + " FROM Task WHERE " + Task.TaskEntry._ID + " = " + idTaska, new String[]{});
             if (cursor.moveToFirst()) {
                 do {
                     nTaska = cursor.getString(0);
                     pTaska = cursor.getInt(1);
+                    sTaska = cursor.getString(2);
                 } while (cursor.moveToNext());
             }
             cursor.close();
             db.close();
         }
         catch (Exception ex){
-            Log.d("Dina", "Greska iz custom adaptera");
+            Toast.makeText(getContext().getApplicationContext(), "Error while reading from database", Toast.LENGTH_LONG).show();
         }
+
+        final String statusTaska = sTaska;
+        final boolean[] isPressed = {false};
+        //oznacavanje taska kao done ili to do
+        btnBrisi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isPressed[0]) {
+                    btnBrisi.setBackgroundResource(R.drawable.notdonee);
+                    Toast.makeText(getContext().getApplicationContext(), "Nista", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    SQLiteDatabase db = listaHelper.getWritableDatabase();
+                    if(statusTaska.equals("to do\n")) {
+                        btnBrisi.setBackgroundResource(R.drawable.notdonee);
+                        ContentValues values = new ContentValues();
+                        values.put(Task.TaskEntry.COL_TASK_STATUS, "done\n");
+                        db.update(Task.TaskEntry.TABLE, values, "_id = " + tekst, null);
+                    }
+                    else if(statusTaska.equals("done\n")) {
+                        btnBrisi.setBackgroundResource(R.drawable.done);
+                        ContentValues values = new ContentValues();
+                        values.put(Task.TaskEntry.COL_TASK_STATUS, "to do\n");
+                        db.update(Task.TaskEntry.TABLE, values, "_id = " + tekst, null);
+                    }
+                    else Toast.makeText(getContext().getApplicationContext(), "Error loading", Toast.LENGTH_LONG).show();
+                    CustomAdapter.super.notifyDataSetChanged();
+                    db.close();
+                }
+                isPressed[0] = !isPressed[0];
+            }
+        });
 
         skriveniID.setText(tekst);
         nazivTaska.setText(nTaska);
@@ -94,6 +117,13 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         else if(pTaska == 3)
             uzvicnik.setImageResource(R.drawable.lowpriority);
         else uzvicnik.setImageResource(R.drawable.priority);
+
+        //podesi status taska
+        if(sTaska.equals("to do\n"))
+            btnBrisi.setBackgroundResource(R.drawable.notdonee);
+        else if(sTaska.equals("done\n"))
+            btnBrisi.setBackgroundResource(R.drawable.done);
+        else btnBrisi.setBackgroundResource(R.drawable.notdonee); //ovo je zbog liste itema, kasnije popravi
 
         return rowView;
 

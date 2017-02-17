@@ -57,6 +57,12 @@
                 android:title="View finished"
                 android:icon="@drawable/complete">
             </item>
+
+            <item
+                android:id="@+id/id_delete_completed"
+                android:title="Delete finished"
+                android:icon="@drawable/delete">
+            </item>
         </menu>
     </item>
 

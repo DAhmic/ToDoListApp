@@ -88,6 +88,15 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
         cursor.close();
         db.close();
 
+        //opcije sortiranja nisu dostupne za liste tipa dva - samo itemi
+        if(odabrani_template == 2) {
+            Menu menuNav = nvDrawer.getMenu();
+            MenuItem item2 = menuNav.findItem(R.id.id_dueDate);
+            item2.setEnabled(false);
+            MenuItem item3 = menuNav.findItem(R.id.id_priority);
+            item3.setEnabled(false);
+        }
+
         //klik na task otvara edit taska
         taskoviView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -205,16 +214,38 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
                 alert.show();
                 break;
             case R.id.id_priority:
-                startActivity(new Intent(getApplicationContext(), AllTaskSortByPriority.class));
+                sortByPriority();
+                //startActivity(new Intent(getApplicationContext(), AllTaskSortByPriority.class));
                 break;
             case R.id.id_dueDate:
-                startActivity(new Intent(getApplicationContext(),AllTasks.class));
+                sortByDueDate();
+                //startActivity(new Intent(getApplicationContext(),AllTasks.class));
                 break;
             case R.id.id_unfinished:
-                startActivity(new Intent(getApplicationContext(), UnfinishedTasks.class));
+                viewUnfinished();
+                //startActivity(new Intent(getApplicationContext(), UnfinishedTasks.class));
                 break;
             case R.id.id_completed:
-                startActivity(new Intent(getApplicationContext(), FinishedTasks.class));
+                viewFinished();
+                //startActivity(new Intent(getApplicationContext(), FinishedTasks.class));
+                break;
+            case R.id.id_delete_completed:
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setMessage("Are you sure you want to delete finished tasks from this list?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                deleteFinishedTasks(idListe);
+                                updateUI();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id){
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert2 = builder2.create();
+                alert2.show();
                 break;
             default:
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -293,13 +324,20 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-        public void deleteLista(int idL){
-            String idListee = String.valueOf(idL);
-            SQLiteDatabase db = listaHelper.getWritableDatabase();
-            db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_ID_LISTA + " = ?", new String[]{idListee});
-            db.delete(Lista.ListaEntry.TABLE, Lista.ListaEntry._ID + " = ?", new String[] {idListee});
-            db.close();
-        }
+    public void deleteLista(int idL){
+        String idListee = String.valueOf(idL);
+        SQLiteDatabase db = listaHelper.getWritableDatabase();
+        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_ID_LISTA + " = ?", new String[]{idListee});
+        db.delete(Lista.ListaEntry.TABLE, Lista.ListaEntry._ID + " = ?", new String[] {idListee});
+        db.close();
+    }
+
+    public void deleteFinishedTasks(int idL){
+        String idListee = String.valueOf(idListe);
+        SQLiteDatabase db = listaHelper.getWritableDatabase();
+        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = 'done\n'", new String[]{idListee});
+        db.close();
+    }
 
 //    public void deleteTask(int idT){
 //        String idTaskaa = String.valueOf(idT);
@@ -307,4 +345,146 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 //        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry._ID + " = ?", new String[]{idTaskaa});
 //        db.close();
 //    }
+
+    private void sortByPriority(){
+        //prvo naci id liste ciji su taskovi
+        SQLiteDatabase db2 = listaHelper.getReadableDatabase();
+        passedArg = getIntent().getExtras().getString("nazivListe");
+        Cursor cursor2 = db2.rawQuery("SELECT "+ Lista.ListaEntry._ID +" FROM Lista WHERE name = ?", new String[] {passedArg});
+        if (cursor2.moveToFirst()){
+            do{
+                idListe = cursor2.getInt(0);
+            }while (cursor2.moveToNext());
+        }
+        cursor2.close();
+        db2.close();
+        String idListeQuery = String.valueOf(idListe);
+
+        ArrayList<Integer> idTaskova = new ArrayList<>();
+        SQLiteDatabase db = listaHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY priority", new String[] {idListeQuery});
+
+        // Iterate the results
+        while (cursor.moveToNext()) {
+            int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
+            idTaskova.add(cursor.getInt(indeksi));
+        }
+        if(mAdapter==null){
+            mAdapter = new CustomAdapter(this, idTaskova);
+            taskoviView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.clear();
+            mAdapter.addAll(idTaskova);
+            mAdapter.notifyDataSetChanged();
+        }
+        cursor.close();
+        db.close();
+    }
+
+    private void sortByDueDate(){
+        //prvo naci id liste ciji su taskovi
+        SQLiteDatabase db2 = listaHelper.getReadableDatabase();
+        passedArg = getIntent().getExtras().getString("nazivListe");
+        Cursor cursor2 = db2.rawQuery("SELECT "+ Lista.ListaEntry._ID +" FROM Lista WHERE name = ?", new String[] {passedArg});
+        if (cursor2.moveToFirst()){
+            do{
+                idListe = cursor2.getInt(0);
+            }while (cursor2.moveToNext());
+        }
+        cursor2.close();
+        db2.close();
+        String idListeQuery = String.valueOf(idListe);
+
+        ArrayList<Integer> idTaskova = new ArrayList<>();
+        SQLiteDatabase db = listaHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY datetime(date)", new String[] {idListeQuery});
+
+        while (cursor.moveToNext()) {
+            int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
+            idTaskova.add(cursor.getInt(indeksi));
+        }
+        if(mAdapter==null){
+            mAdapter = new CustomAdapter(this, idTaskova);
+            taskoviView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.clear();
+            mAdapter.addAll(idTaskova);
+            mAdapter.notifyDataSetChanged();
+        }
+        cursor.close();
+        db.close();
+    }
+
+    private void viewUnfinished(){
+        //prvo naci id liste ciji su taskovi
+        SQLiteDatabase db2 = listaHelper.getReadableDatabase();
+        passedArg = getIntent().getExtras().getString("nazivListe");
+        Cursor cursor2 = db2.rawQuery("SELECT "+ Lista.ListaEntry._ID +" FROM Lista WHERE name = ?", new String[] {passedArg});
+        if (cursor2.moveToFirst()){
+            do{
+                idListe = cursor2.getInt(0);
+            }while (cursor2.moveToNext());
+        }
+        cursor2.close();
+        db2.close();
+        String idListeQuery = String.valueOf(idListe);
+
+        ArrayList<Integer> idTaskova = new ArrayList<>();
+        SQLiteDatabase db = listaHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = 'to do\n' " + "ORDER BY datetime(date)", new String[] {idListeQuery});
+
+        while (cursor.moveToNext()) {
+            int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
+            idTaskova.add(cursor.getInt(indeksi));
+        }
+        if(mAdapter==null){
+            mAdapter = new CustomAdapter(this, idTaskova);
+            taskoviView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.clear();
+            mAdapter.addAll(idTaskova);
+            mAdapter.notifyDataSetChanged();
+        }
+        cursor.close();
+        db.close();
+    }
+
+    private void viewFinished(){
+        //prvo naci id liste ciji su taskovi
+        SQLiteDatabase db2 = listaHelper.getReadableDatabase();
+        passedArg = getIntent().getExtras().getString("nazivListe");
+        Cursor cursor2 = db2.rawQuery("SELECT "+ Lista.ListaEntry._ID +" FROM Lista WHERE name = ?", new String[] {passedArg});
+        if (cursor2.moveToFirst()){
+            do{
+                idListe = cursor2.getInt(0);
+            }while (cursor2.moveToNext());
+        }
+        cursor2.close();
+        db2.close();
+        String idListeQuery = String.valueOf(idListe);
+
+        ArrayList<Integer> idTaskova = new ArrayList<>();
+        SQLiteDatabase db = listaHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = 'done\n' " + "ORDER BY datetime(date)", new String[] {idListeQuery});
+
+        while (cursor.moveToNext()) {
+            int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
+            idTaskova.add(cursor.getInt(indeksi));
+        }
+        if(mAdapter==null){
+            mAdapter = new CustomAdapter(this, idTaskova);
+            taskoviView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.clear();
+            mAdapter.addAll(idTaskova);
+            mAdapter.notifyDataSetChanged();
+        }
+        cursor.close();
+        db.close();
+    }
+
 }

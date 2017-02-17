@@ -18,18 +18,18 @@ public class ListaHelper extends SQLiteOpenHelper {
         db.execSQL("PRAGMA foreign_keys=ON;");
         String createTable = "CREATE TABLE " + Lista.ListaEntry.TABLE + "( "
                                              + Lista.ListaEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                             + Lista.ListaEntry.COL_LISTA_NAME + " TEXT NOT NULL, "
+                                             + Lista.ListaEntry.COL_LISTA_NAME + " TEXT NOT NULL UNIQUE, "
                                              + Lista.ListaEntry.COL_LISTA_TYPE + " INTEGER NOT NULL, "
                                              + Lista.ListaEntry.COL_LISTA_DELETED + " BOOLEAN DEFAULT FALSE);";
 
         String createTable2 = "CREATE TABLE " + Task.TaskEntry.TABLE + "( "
                 + Task.TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Task.TaskEntry.COL_TASK_NAME + " TEXT NOT NULL, "
-                + Task.TaskEntry.COL_TASK_DATE + " TEXT, "
-                + Task.TaskEntry.COL_TASK_TIME + " TEXT, "
-                + Task.TaskEntry.COL_TASK_PRIORITY + " INTEGER, "
-                + Task.TaskEntry.COL_TASK_STATUS + " TEXT, "
-                + Task.TaskEntry.COL_TASK_NOTE + " TEXT, "
+                + Task.TaskEntry.COL_TASK_DATE + " TEXT DEFAULT NULL, "
+                + Task.TaskEntry.COL_TASK_TIME + " TEXT DEFAULT NULL, "
+                + Task.TaskEntry.COL_TASK_PRIORITY + " INTEGER DEFAULT NULL, "
+                + Task.TaskEntry.COL_TASK_STATUS + " TEXT DEFAULT 'to do\n', "
+                + Task.TaskEntry.COL_TASK_NOTE + " TEXT DEFAULT NULL, "
                 + Task.TaskEntry.COL_TASK_DELETED + " BOOLEAN DEFAULT FALSE, "
                 + Task.TaskEntry.COL_TASK_ID_LISTA + " INTEGER NOT NULL, "
                 + "FOREIGN KEY(" + Task.TaskEntry.COL_TASK_ID_LISTA +") REFERENCES Lista(" + Lista.ListaEntry._ID + ") );";
