@@ -1,7 +1,5 @@
 package com.example.korisnik.todooo;
 
-
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,11 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.korisnik.todooo.db.Lista;
@@ -43,7 +38,6 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
     // GUI components
     private AutoCompleteTextView listaName;		// Text field
     private FloatingActionButton addNewListaButton;	// Add new button
-    //private FloatingActionButton backButton;		// Back button
     private ImageButton taskTemplate;
     private ImageButton itemTemplate;
 
@@ -57,18 +51,15 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
 
         listaName 		= (AutoCompleteTextView) findViewById(R.id.newListaName);
         addNewListaButton 	= (FloatingActionButton)findViewById(R.id.addNewListaButton);
-        //backButton		= (FloatingActionButton)findViewById(R.id.menuGoBackButton);
-
         addNewListaButton.setOnClickListener(this);
-        //backButton.setOnClickListener(this);
 
         //za Image Buttone
         addListenerOnButton();
 
         //za navigation drawer
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        //toolbar.setTitle("To-Do lists");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add new list");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,
                 R.string.drawer_close);
@@ -159,6 +150,9 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.id_help:
+                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

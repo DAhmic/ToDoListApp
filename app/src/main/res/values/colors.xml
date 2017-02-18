@@ -10,4 +10,5 @@
     <color name="highlight2">#FFD0D7D0</color>
     <color name="highlight">#5b6982</color>
     <color name="darkBlue">#1f375e</color>
+    <color name="black">#000000</color>
 </resources>

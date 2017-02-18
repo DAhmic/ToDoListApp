@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.id_help:
+                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -239,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
 
 
 }

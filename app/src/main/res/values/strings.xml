@@ -24,4 +24,17 @@
     <string name="status">Status</string>
     <string name="priority">Priority</string>
     <string name="note">Note</string>
+    <string name="help1"><b>View lists: </b>allows you to see all the created lists, access them and to add a new one.</string>
+    <string name="help2"><b>View tasks: </b>allows you to see tasks from all of the lists, except from those with the simple template.</string>
+    <string name="help3"><b>Change list name: </b>enables changing name of the active list.</string>
+    <string name="help4"><b>Delete list: </b>deletes active list.</string>
+    <string name="help5"><b>Sort by priority: </b>sorts tasks by priority. If some of the lists screen is active, sorting its tasks is performed. Otherwise, tasks from all of the lists are sorted by priority.</string>
+    <string name="help6">high priority</string>
+    <string name="help7">medium priority</string>
+    <string name="help8">low priority</string>
+    <string name="help9"><b>Sort by due date: </b>sorts tasks by date. If some of the lists screen is active, sorting its tasks is performed. Otherwise, tasks from all of the lists are sorted by due date.</string>
+    <string name="help10"><b>View unfinished: </b>shows tasks that need to be done. If some of the lists screen is active, showing its unfinished tasks is performed. Otherwise, unfinished tasks from all of the lists are shown.</string>
+    <string name="help11"><b>View finished: </b>shows tasks that are done. If some of the lists screen is active, showing its finished tasks is performed. Otherwise, finished tasks from all of the lists are shown.</string>
+    <string name="helpTitle"><b>Following options are available in the menu:</b></string>
+    <string name="help12"><b>Return to the previous screen by touching the Back button on your phone.</b></string>
 </resources>

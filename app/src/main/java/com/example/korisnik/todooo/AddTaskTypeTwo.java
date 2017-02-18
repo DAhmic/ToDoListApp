@@ -50,8 +50,8 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
 
         //za navigation drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle("To-Do lists");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add new task");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
                 R.string.drawer_close);
@@ -132,6 +132,9 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
             switch (item.getItemId()) {
                 case android.R.id.home:
                     drawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+                case R.id.id_help:
+                    startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                     return true;
             }
             return super.onOptionsItemSelected(item);

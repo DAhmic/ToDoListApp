@@ -33,7 +33,7 @@
                 android:text="Hiii"
                 android:textSize="15sp"
                 android:textColor="@android:color/black"
-                />
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/task_id"
@@ -57,16 +57,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!--android:clickable="true"-->
-    <!--android:onClick="otvoriTaskove"-->
-
-    <!--<Button-->
-    <!--android:id="@+id/lista_delete"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:onClick="deleteLista"-->
-    <!--android:text="Delete"/>-->
 
 </RelativeLayout>

@@ -62,7 +62,8 @@
             android:background="@drawable/mybutton"
             android:layout_marginEnd="15dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:singleLine="true">
 
             <requestFocus />
         </AutoCompleteTextView>

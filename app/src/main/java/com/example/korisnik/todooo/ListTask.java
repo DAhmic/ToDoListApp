@@ -1,6 +1,7 @@
 package com.example.korisnik.todooo;
 
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
     private int idListe = 0;
     private int odabrani_template = 0;
     private String passedArg;
+    private String promjenaImena = ""; //novo ime za listu, opcija change liste name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +67,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
         //za navigation drawer
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        //toolbar.setTitle("To-Do lists");
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar); //naziv je podesen kad se dobavi passedarg
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,
                 R.string.drawer_close);
@@ -77,6 +80,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
         //trazi template liste
         SQLiteDatabase db = listaHelper.getReadableDatabase();
         passedArg = getIntent().getExtras().getString("nazivListe");
+        getSupportActionBar().setTitle(passedArg + " list");
         //mislim da ovdje pada kada se pokusaju dodati dva taska zaredom
         //probala rijesiti sa prosljedjivanje naziva liste na sve ekrane koji mogu doci na ovaj
         Cursor cursor = db.rawQuery("SELECT type FROM Lista WHERE name = ?", new String[] {passedArg});
@@ -172,6 +176,9 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.id_help:
+                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -195,8 +202,36 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
             case R.id.viewTasks:
                 startActivity(new Intent(getApplicationContext(),AllTasks.class));
                 break;
+            case R.id.id_changeListName:
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+                builder3.setTitle("Change list name");
+                final EditText newName = new EditText(this);
+                newName.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder3.setView(newName);
+                builder3.setMessage("\nEnter the new name for this list:")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                promjenaImena = newName.getText().toString();
+                                SQLiteDatabase db = listaHelper.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put(Lista.ListaEntry.COL_LISTA_NAME, promjenaImena);
+                                db.update(Lista.ListaEntry.TABLE, values, "_id = " + idListe, null);
+                                Toast.makeText(getApplicationContext(), "List name successfully changed!", Toast.LENGTH_LONG).show();
+                                db.close();
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert3 = builder3.create();
+                alert3.show();
+                break;
             case R.id.id_deleteList:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete list");
                 builder.setMessage("Are you sure you want to delete this list?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener(){

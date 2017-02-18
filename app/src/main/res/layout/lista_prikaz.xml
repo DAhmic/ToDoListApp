@@ -17,7 +17,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textColor="@color/colorPrimaryDark"
-        />
+        android:singleLine="true"/>
     </LinearLayout>
 
     <!--android:clickable="true"-->

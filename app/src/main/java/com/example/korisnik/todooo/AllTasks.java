@@ -16,11 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.korisnik.todooo.db.Lista;
 import com.example.korisnik.todooo.db.ListaHelper;
 import com.example.korisnik.todooo.db.Task;
 
@@ -35,7 +33,6 @@ public class AllTasks extends AppCompatActivity {
     private static final String TAG = "AllTasks";
     private ListaHelper listaHelper;
     private ListView taskoviView;
-    //private ArrayAdapter<String> mAdapter;
     private CustomAdapter mAdapter;
 
     @Override
@@ -48,8 +45,8 @@ public class AllTasks extends AppCompatActivity {
 
         //za navigation drawer
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        //toolbar.setTitle("To-Do lists");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("All tasks");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,
                 R.string.drawer_close);
@@ -131,6 +128,9 @@ public class AllTasks extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.id_help:
+                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
