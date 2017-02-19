@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/task_name"
-                android:layout_width="260dp"
+                android:layout_width="190dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:layout_alignParentLeft="true"
@@ -35,24 +35,54 @@
                 android:textColor="@android:color/black"
                 android:singleLine="true"/>
 
-            <TextView
-                android:id="@+id/task_id"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:text="task"
-                android:visibility="invisible"
-                />
 
-            <Button
-                android:layout_weight="0"
-                android:id="@+id/btnDelete"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/notdonee"
-                android:focusable="false"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <View android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6" />
+
+                <TextView
+                    android:id="@+id/task_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:text="Datum"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/black"
+                    android:padding="2dp"/>
+
+                <TextView
+                    android:id="@+id/task_id"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:text="task"
+                    android:visibility="invisible"
+                    />
+
+                <View android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:layout_weight="0"
+                    android:id="@+id/btnDelete"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/notdonee"
+                    android:focusable="false"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

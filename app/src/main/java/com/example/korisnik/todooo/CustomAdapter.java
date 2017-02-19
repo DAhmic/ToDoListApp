@@ -19,7 +19,9 @@ import com.example.korisnik.todooo.db.ListaHelper;
 import com.example.korisnik.todooo.db.Task;
 
 import java.io.Console;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,11 +49,16 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         View rowView = inflater.inflate(R.layout.task_prikaz, parent, false);
         TextView skriveniID = (TextView)rowView.findViewById(R.id.task_id);
         TextView nazivTaska = (TextView) rowView.findViewById(R.id.task_name);
+        TextView datumTaska = (TextView) rowView.findViewById(R.id.task_date);
         ImageView uzvicnik = (ImageView) rowView.findViewById(R.id.uzvicnik);
         final Button btnBrisi = (Button) rowView.findViewById(R.id.btnDelete);
         int pTaska = 0; //prioritet
         String nTaska = ""; //naziv
+        String dTaska = ""; //datum
         String sTaska = ""; //status
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date datum2 = null;
 
         int idTaska = idevi.get(position);
 //        nazivTaska.setText(nazivi.get(position));
@@ -59,12 +66,13 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
 
         try {
             SQLiteDatabase db = listaHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_NAME + ", " + Task.TaskEntry.COL_TASK_PRIORITY + ", " + Task.TaskEntry.COL_TASK_STATUS + " FROM Task WHERE " + Task.TaskEntry._ID + " = " + idTaska, new String[]{});
+            Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry.COL_TASK_NAME + ", " + Task.TaskEntry.COL_TASK_DATE + ", " + Task.TaskEntry.COL_TASK_PRIORITY + ", " + Task.TaskEntry.COL_TASK_STATUS + " FROM Task WHERE " + Task.TaskEntry._ID + " = " + idTaska, new String[]{});
             if (cursor.moveToFirst()) {
                 do {
                     nTaska = cursor.getString(0);
-                    pTaska = cursor.getInt(1);
-                    sTaska = cursor.getString(2);
+                    dTaska = cursor.getString(1);
+                    pTaska = cursor.getInt(2);
+                    sTaska = cursor.getString(3);
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -82,20 +90,20 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
             public void onClick(View view) {
                 if(isPressed[0]) {
                     btnBrisi.setBackgroundResource(R.drawable.notdonee);
-                    Toast.makeText(getContext().getApplicationContext(), "Nista", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext().getApplicationContext(), "Nista", Toast.LENGTH_LONG).show();
                 }
                 else {
                     SQLiteDatabase db = listaHelper.getWritableDatabase();
-                    if(statusTaska.equals("to do\n")) {
+                    if(statusTaska.equals(" to do\n")) {
                         btnBrisi.setBackgroundResource(R.drawable.notdonee);
                         ContentValues values = new ContentValues();
-                        values.put(Task.TaskEntry.COL_TASK_STATUS, "done\n");
+                        values.put(Task.TaskEntry.COL_TASK_STATUS, " done\n");
                         db.update(Task.TaskEntry.TABLE, values, "_id = " + tekst, null);
                     }
-                    else if(statusTaska.equals("done\n")) {
+                    else if(statusTaska.equals(" done\n")) {
                         btnBrisi.setBackgroundResource(R.drawable.done);
                         ContentValues values = new ContentValues();
-                        values.put(Task.TaskEntry.COL_TASK_STATUS, "to do\n");
+                        values.put(Task.TaskEntry.COL_TASK_STATUS, " to do\n");
                         db.update(Task.TaskEntry.TABLE, values, "_id = " + tekst, null);
                     }
                     else Toast.makeText(getContext().getApplicationContext(), "Error loading", Toast.LENGTH_LONG).show();
@@ -109,6 +117,21 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         skriveniID.setText(tekst);
         nazivTaska.setText(nTaska);
 
+        //prikaz datuma
+        if(dTaska == null || dTaska == "") {
+            datumTaska.setText("");
+        }
+        else {
+            try {
+                datum2 = format2.parse(dTaska);
+            }
+            catch (Exception ex) {
+                Toast.makeText(getContext().getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+            String datumPrikaz = format1.format(datum2);
+            datumTaska.setText(datumPrikaz);
+        }
+
         //podesi slicicu u zavisnosti od prioriteta
         if(pTaska == 1)
             uzvicnik.setImageResource(R.drawable.highpriority);
@@ -119,9 +142,9 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         else uzvicnik.setImageResource(R.drawable.priority);
 
         //podesi status taska
-        if(sTaska.equals("to do\n"))
+        if(sTaska.equals(" to do\n"))
             btnBrisi.setBackgroundResource(R.drawable.notdonee);
-        else if(sTaska.equals("done\n"))
+        else if(sTaska.equals(" done\n"))
             btnBrisi.setBackgroundResource(R.drawable.done);
         else btnBrisi.setBackgroundResource(R.drawable.notdonee); //ovo je zbog liste itema, kasnije popravi
 

@@ -212,6 +212,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
                         .setPositiveButton("OK", new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int id){
                                 promjenaImena = newName.getText().toString();
+                                promjenaImena = promjenaImena.trim();
                                 SQLiteDatabase db = listaHelper.getWritableDatabase();
                                 ContentValues values = new ContentValues();
                                 values.put(Lista.ListaEntry.COL_LISTA_NAME, promjenaImena);
@@ -337,7 +338,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
         // Query the database
         //Cursor cursor = db.query(Task.TaskEntry.TABLE, new String[] {Task.TaskEntry._ID, Task.TaskEntry.COL_TASK_NAME}, null, null, null, null, null);
         //Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + ", " + Task.TaskEntry.COL_TASK_NAME + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ?", new String[] {idListeQuery});
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ?", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY date", new String[] {idListeQuery});
 
         // Iterate the results
         while (cursor.moveToNext()) {
@@ -433,7 +434,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
         ArrayList<Integer> idTaskova = new ArrayList<>();
         SQLiteDatabase db = listaHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY datetime(date)", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY date", new String[] {idListeQuery});
 
         while (cursor.moveToNext()) {
             int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
@@ -468,7 +469,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
         ArrayList<Integer> idTaskova = new ArrayList<>();
         SQLiteDatabase db = listaHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = 'to do\n' " + "ORDER BY datetime(date)", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = ' to do\n' " + "ORDER BY date", new String[] {idListeQuery});
 
         while (cursor.moveToNext()) {
             int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
@@ -503,7 +504,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
         ArrayList<Integer> idTaskova = new ArrayList<>();
         SQLiteDatabase db = listaHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = 'done\n' " + "ORDER BY datetime(date)", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? AND " + Task.TaskEntry.COL_TASK_STATUS + " = ' done\n' " + "ORDER BY date", new String[] {idListeQuery});
 
         while (cursor.moveToNext()) {
             int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);

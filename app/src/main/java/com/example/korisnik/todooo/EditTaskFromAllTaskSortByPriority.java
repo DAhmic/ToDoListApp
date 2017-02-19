@@ -98,13 +98,13 @@ public class EditTaskFromAllTaskSortByPriority extends AppCompatActivity impleme
 
         //za padajucu listu priority
         Spinner dropdown = (Spinner) findViewById(R.id.edit_spinner_priority);
-        String[] priority = new String[]{"Priority\n", "high\n", "medium\n", "low\n"};
+        String[] priority = new String[]{" Priority\n", " high\n", " medium\n", " low\n"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, priority);
         dropdown.setAdapter(adapter);
 
         //za padajucu listu status
         Spinner dropdown2 = (Spinner) findViewById(R.id.edit_spinner_status);
-        String[] status = new String[]{"Status\n", "to do\n", "done\n"};
+        String[] status = new String[]{" Status\n", " to do\n", " done\n"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_item, status);
         dropdown2.setAdapter(adapter2);
 
@@ -144,9 +144,9 @@ public class EditTaskFromAllTaskSortByPriority extends AppCompatActivity impleme
         else if (pTaska == 3)
             taskPriority.setSelection(3);
         else taskPriority.setSelection(0);
-        if (statusTaska.equals("to do\n"))
+        if (statusTaska.equals(" to do\n"))
             taskStatus.setSelection(1);
-        else if (statusTaska.equals("done\n"))
+        else if (statusTaska.equals(" done\n"))
             taskStatus.setSelection(2);
         else taskStatus.setSelection(0);
         taskNote.setText(noteTaska);
@@ -179,11 +179,11 @@ public class EditTaskFromAllTaskSortByPriority extends AppCompatActivity impleme
             String datumUBazu = format2.format(datum2) + " " + vrijeme + ":00";
             //priority
             task_priority = taskPriority.getSelectedItem().toString();
-            if (task_priority == "high\n")
+            if (task_priority == " high\n")
                 prioritet = 1;
-            else if (task_priority == "medium\n")
+            else if (task_priority == " medium\n")
                 prioritet = 2;
-            else if (task_priority == "low\n")
+            else if (task_priority == " low\n")
                 prioritet = 3;
             else prioritet = 4;
             //status

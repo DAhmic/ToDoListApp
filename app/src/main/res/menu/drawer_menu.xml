@@ -15,54 +15,61 @@
             ></item>
     </group>
 
+
     <item
         android:title="Manage lists">
         <menu>
-            <item
-                android:id="@+id/id_changeListName"
-                android:title="Change list name"
-                android:icon="@drawable/changelistname">
-            </item>
-            <item
-                android:id="@+id/id_deleteList"
-                android:title="Delete list"
-                android:icon="@drawable/delete">
-            </item>
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/id_changeListName"
+                    android:title="Change list name"
+                    android:icon="@drawable/changelistname">
+                </item>
+                <item
+                    android:id="@+id/id_deleteList"
+                    android:title="Delete list"
+                    android:icon="@drawable/delete">
+                </item>
+            </group>
         </menu>
     </item>
 
     <item
         android:title="Manage tasks">
         <menu>
-            <item
-                android:id="@+id/id_priority"
-                android:title="Sort by priority"
-                android:icon="@drawable/priority">
-            </item>
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/id_priority"
+                    android:title="Sort by priority"
+                    android:icon="@drawable/priority">
+                </item>
 
-            <item
-                android:id="@+id/id_dueDate"
-                android:title="Sort by due date"
-                android:icon="@drawable/duedate">
-            </item>
+                <item
+                    android:id="@+id/id_dueDate"
+                    android:title="Sort by due date"
+                    android:icon="@drawable/duedate">
+                </item>
 
-            <item
-                android:id="@+id/id_unfinished"
-                android:title="View unfinished"
-                android:icon="@drawable/incomplete">
-            </item>
+                <item
+                    android:id="@+id/id_unfinished"
+                    android:title="View unfinished"
+                    android:icon="@drawable/incomplete">
+                </item>
 
-            <item
-                android:id="@+id/id_completed"
-                android:title="View finished"
-                android:icon="@drawable/complete">
-            </item>
+                <item
+                    android:id="@+id/id_completed"
+                    android:title="View finished"
+                    android:icon="@drawable/complete">
+                </item>
 
-            <item
-                android:id="@+id/id_delete_completed"
-                android:title="Delete finished"
-                android:icon="@drawable/delete">
-            </item>
+                <item
+                    android:id="@+id/id_delete_completed"
+                    android:title="Delete finished"
+                    android:icon="@drawable/delete">
+                </item>
+            </group>
         </menu>
     </item>
 

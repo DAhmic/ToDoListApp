@@ -182,7 +182,7 @@ public class AllTasks extends AppCompatActivity {
         SQLiteDatabase db = listaHelper.getReadableDatabase();
         // Query the database
         //Cursor cursor = db.query(Task.TaskEntry.TABLE, new String[] {Task.TaskEntry._ID, Task.TaskEntry.COL_TASK_NAME}, null, null, null, null, null);
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE date IS NOT NULL ORDER BY datetime(date)", new String[]{});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM Task WHERE date IS NOT NULL ORDER BY date", new String[]{});
 
         // Iterate the results
         while (cursor.moveToNext()) {

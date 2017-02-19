@@ -178,10 +178,10 @@ public class FinishedTasks extends AppCompatActivity {
     private void updateUI(){
         //ArrayList<String> imenaTaskova = new ArrayList<>();
         ArrayList<Integer> idTaskova = new ArrayList<>();
-        String q = "done\n";
+        String q = " done\n";
         SQLiteDatabase db = listaHelper.getReadableDatabase();
         // Query the database
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM Task WHERE status = ?", new String[]{q});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM Task WHERE status = ? ORDER BY date", new String[]{q});
 
         // Iterate the results
         while (cursor.moveToNext()) {

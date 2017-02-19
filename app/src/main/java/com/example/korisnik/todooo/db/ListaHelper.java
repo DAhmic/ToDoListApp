@@ -28,7 +28,7 @@ public class ListaHelper extends SQLiteOpenHelper {
                 + Task.TaskEntry.COL_TASK_DATE + " TEXT DEFAULT NULL, "
                 + Task.TaskEntry.COL_TASK_TIME + " TEXT DEFAULT NULL, "
                 + Task.TaskEntry.COL_TASK_PRIORITY + " INTEGER DEFAULT NULL, "
-                + Task.TaskEntry.COL_TASK_STATUS + " TEXT DEFAULT 'to do\n', "
+                + Task.TaskEntry.COL_TASK_STATUS + " TEXT DEFAULT ' to do\n', "
                 + Task.TaskEntry.COL_TASK_NOTE + " TEXT DEFAULT NULL, "
                 + Task.TaskEntry.COL_TASK_DELETED + " BOOLEAN DEFAULT FALSE, "
                 + Task.TaskEntry.COL_TASK_ID_LISTA + " INTEGER NOT NULL, "
@@ -36,6 +36,11 @@ public class ListaHelper extends SQLiteOpenHelper {
 
         db.execSQL(createTable);
         db.execSQL(createTable2);
+
+        String defaultLista1 = "INSERT OR REPLACE INTO Lista (name, type) VALUES ('Personal', 1);";
+        String defaultLista2 = "INSERT OR REPLACE INTO Lista (name, type) VALUES ('Groceries', 2);";
+        db.execSQL(defaultLista1);
+        db.execSQL(defaultLista2);
     }
 
     //recreates table

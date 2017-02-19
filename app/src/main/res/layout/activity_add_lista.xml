@@ -92,7 +92,7 @@
             <ImageButton
                 android:background="@drawable/tasktemplate"
                 android:layout_width="140dp"
-                android:layout_height="195dp"
+                android:layout_height="185dp"
                 android:id="@+id/tasktemplate"
                 style="@android:style/Widget.Button"
                 android:clickable="true"
@@ -100,7 +100,7 @@
 
             <ImageButton
                 android:layout_width="140dp"
-                android:layout_height="195dp"
+                android:layout_height="185dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/itemtemplate"
                 android:id="@+id/itemtemplate"

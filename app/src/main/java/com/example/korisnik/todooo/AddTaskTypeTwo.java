@@ -51,7 +51,7 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
         //za navigation drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add new task");
+        getSupportActionBar().setTitle("Add new item");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
                 R.string.drawer_close);
@@ -89,25 +89,30 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
             if (addNewItemButton.isPressed()) {
                 // Get entered text
                 String taskTextValue = taskName.getText().toString();
+                taskTextValue = taskTextValue.trim();
                 taskName.setText("");
 
-                // Add text to the database
-                SQLiteDatabase db = listaHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
-                values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListe);
-                db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                db.close();
+                if(taskTextValue.equals("") || taskTextValue.equals(null)){
+                    Toast.makeText(getApplicationContext(), "Enter the item name", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    // Add text to the database
+                    SQLiteDatabase db = listaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
+                    values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListe);
+                    db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                    db.close();
 
-                // Display success information
-                Toast.makeText(getApplicationContext(), "New Item added!", Toast.LENGTH_LONG).show();
-                // Close the database
-                db.close();
+                    // Display success information
+                    Toast.makeText(getApplicationContext(), "New item added", Toast.LENGTH_LONG).show();
+                    // Close the database
+                    db.close();
 
-                Intent intent = new Intent(this, ListTask.class);
-                intent.putExtra("nazivListe", passedArg);
-                startActivity(intent);
-
+                    Intent intent = new Intent(this, ListTask.class);
+                    intent.putExtra("nazivListe", passedArg);
+                    startActivity(intent);
+                }
             }
             //ovdje bi isao else da je kliknut back button
 

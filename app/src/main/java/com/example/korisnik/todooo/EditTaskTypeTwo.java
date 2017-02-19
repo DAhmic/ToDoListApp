@@ -101,24 +101,29 @@ public class EditTaskTypeTwo extends AppCompatActivity implements View.OnClickLi
         if (editItemButton.isPressed()) {
             // Get entered text
             String taskTextValue = itemName.getText().toString();
+            taskTextValue = taskTextValue.trim();
 
-            if(!(pocetniNaziv.equals(taskTextValue))){
-                SQLiteDatabase db = listaHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
-                values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListeTaska);
-                db.update(Task.TaskEntry.TABLE, values, "_id = " + idTaska, null);
-                // Display success information
-                Toast.makeText(getApplicationContext(), "Task successfully edited!", Toast.LENGTH_LONG).show();
-                // Close the database
-                db.close();
+            if(taskTextValue.equals("") || taskTextValue.equals(null)){
+                Toast.makeText(getApplicationContext(), "Enter the item name", Toast.LENGTH_LONG).show();
             }
             else {
-                Toast.makeText(getApplicationContext(), "You didn't make any changes", Toast.LENGTH_LONG).show();
+                if (!(pocetniNaziv.equals(taskTextValue))) {
+                    SQLiteDatabase db = listaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
+                    values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListeTaska);
+                    db.update(Task.TaskEntry.TABLE, values, "_id = " + idTaska, null);
+                    // Display success information
+                    Toast.makeText(getApplicationContext(), "Task successfully edited!", Toast.LENGTH_LONG).show();
+                    // Close the database
+                    db.close();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You didn't make any changes", Toast.LENGTH_LONG).show();
+                }
+                Intent intent = new Intent(this, ListTask.class);
+                intent.putExtra("nazivListe", nazivListe);
+                startActivity(intent);
             }
-            Intent intent = new Intent(this, ListTask.class);
-            intent.putExtra("nazivListe", nazivListe);
-            startActivity(intent);
         }
 
     }

@@ -3,6 +3,7 @@ package com.example.korisnik.todooo;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -84,6 +85,7 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
         if (addNewListaButton.isPressed()) {
             // Get entered text
             String listaTextValue = listaName.getText().toString();
+            listaTextValue = listaTextValue.trim();
             //template
             if(odabrani == 0){
                 Toast.makeText(getApplicationContext(), "Choose template for your list", Toast.LENGTH_LONG).show();
@@ -103,7 +105,7 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                     itemTemplate.getBackground().clearColorFilter();
                     taskTemplate.getBackground().clearColorFilter();
                     listaName.setText("");
-                    Toast.makeText(getApplicationContext(), "New List added!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "New List added", Toast.LENGTH_LONG).show();
                     db.close();
 
                     Intent intent = new Intent(this, MainActivity.class);
@@ -111,7 +113,7 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                     startActivity(intent);
                 }
                 catch (Exception ex){
-                    Toast.makeText(getApplicationContext(), "You already have list with that name!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You already have list with that name", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -220,21 +222,20 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         ImageButton view = (ImageButton) v;
-                        view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(0x20367639, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
                         // Your action here on button click
                         ImageButton view = (ImageButton) v;
-                        view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(0x20367639, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
 
                         itemTemplate.getBackground().clearColorFilter();
                         odabrani = 1;
 
-                        Toast.makeText(AddListActivity.this,
-                                "Task button is clicked!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AddListActivity.this, "Task button is clicked!", Toast.LENGTH_SHORT).show();
 
                         break;
                     }
@@ -250,13 +251,13 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         //klik na template za iteme
-        itemTemplate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Toast.makeText(AddListActivity.this,
-                        "Item button is clicked!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        itemTemplate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                Toast.makeText(AddListActivity.this,
+//                        "Item button is clicked!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         //border za template za iteme
         itemTemplate.setOnTouchListener(new View.OnTouchListener() {
@@ -265,21 +266,20 @@ public class AddListActivity extends AppCompatActivity implements View.OnClickLi
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         ImageButton view = (ImageButton) v;
-                        view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(0x20367639, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
                         // Your action here on button click
                         ImageButton view = (ImageButton) v;
-                        view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(0x20367639, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
 
                         taskTemplate.getBackground().clearColorFilter();
                         odabrani = 2;
 
-                        Toast.makeText(AddListActivity.this,
-                                "Item button is clicked!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AddListActivity.this, "Item button is clicked!", Toast.LENGTH_SHORT).show();
 
                         break;
                     }
