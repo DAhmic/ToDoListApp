@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Korisnik on 10.2.2017..
- */
 
 public class CustomAdapter extends ArrayAdapter<Integer> {
 
@@ -118,7 +115,7 @@ public class CustomAdapter extends ArrayAdapter<Integer> {
         nazivTaska.setText(nTaska);
 
         //prikaz datuma
-        if(dTaska == null || dTaska == "") {
+        if((dTaska.equals(null)) || (dTaska.equals("")) || (dTaska == null) || (dTaska == "")) {
             datumTaska.setText("");
         }
         else {

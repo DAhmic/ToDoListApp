@@ -114,7 +114,7 @@ public class EditTaskTypeTwo extends AppCompatActivity implements View.OnClickLi
                     values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListeTaska);
                     db.update(Task.TaskEntry.TABLE, values, "_id = " + idTaska, null);
                     // Display success information
-                    Toast.makeText(getApplicationContext(), "Task successfully edited!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Item successfully edited", Toast.LENGTH_LONG).show();
                     // Close the database
                     db.close();
                 } else {
@@ -123,6 +123,7 @@ public class EditTaskTypeTwo extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(this, ListTask.class);
                 intent.putExtra("nazivListe", nazivListe);
                 startActivity(intent);
+                this.finish();
             }
         }
 

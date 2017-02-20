@@ -100,6 +100,10 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
                     SQLiteDatabase db = listaHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
                     values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
+                    values.put(Task.TaskEntry.COL_TASK_DATE, "");
+                    values.put(Task.TaskEntry.COL_TASK_TIME, "");
+                    //values.put(Task.TaskEntry.COL_TASK_PRIORITY, 4);
+                    values.put(Task.TaskEntry.COL_TASK_STATUS, " to do\n");
                     values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListe);
                     db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                     db.close();
@@ -112,6 +116,7 @@ public class AddTaskTypeTwo extends AppCompatActivity implements View.OnClickLis
                     Intent intent = new Intent(this, ListTask.class);
                     intent.putExtra("nazivListe", passedArg);
                     startActivity(intent);
+                    this.finish();
                 }
             }
             //ovdje bi isao else da je kliknut back button

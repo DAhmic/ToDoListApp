@@ -51,12 +51,14 @@ public class FinishedTasks extends AppCompatActivity {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         nvDrawer = (NavigationView) findViewById(R.id.navigation_view);
 
-        //opcije change list name i delete list nisu dostupne
+        //opcije change list name, delete list i delete finished tasks nisu dostupne na pocetnom meniju
         Menu menuNav = nvDrawer.getMenu();
         MenuItem item2 = menuNav.findItem(R.id.id_changeListName);
         item2.setEnabled(false);
         MenuItem item3 = menuNav.findItem(R.id.id_deleteList);
         item3.setEnabled(false);
+        MenuItem item4 = menuNav.findItem(R.id.id_delete_completed);
+        item4.setEnabled(false);
 
         setupDrawerContent(nvDrawer);
 
@@ -181,7 +183,7 @@ public class FinishedTasks extends AppCompatActivity {
         String q = " done\n";
         SQLiteDatabase db = listaHelper.getReadableDatabase();
         // Query the database
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM Task WHERE status = ? ORDER BY date", new String[]{q});
+        Cursor cursor = db.rawQuery("SELECT  t." + Task.TaskEntry._ID + " FROM Task t, Lista l WHERE t.id_lista = l._id AND l.type == 1 AND status = ? ORDER BY date == ''", new String[]{q});
 
         // Iterate the results
         while (cursor.moveToNext()) {

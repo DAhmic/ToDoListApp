@@ -116,14 +116,19 @@ public class EditTaskFromUnfinishedTasks extends AppCompatActivity implements Vi
         //konverzija datuma za spremanje u bazu u formatu yyyy-mm-dd
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datumPrikaz = "";
         Date datum2 = null;
-        try {
-            datum2 = format2.parse(datumTaska);
+        if (datumTaska.equals(null) || datumTaska.equals("") || datumTaska.equals("Date")) {
+            datumPrikaz = "";
         }
-        catch (Exception ex) {
-            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+        else {
+            try {
+                datum2 = format2.parse(datumTaska);
+            } catch (Exception ex) {
+                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+            datumPrikaz = format1.format(datum2);
         }
-        String datumPrikaz = format1.format(datum2);
         String vrijemeTaska = getIntent().getExtras().getString("vrijemeTaska");
         pocetnoVrijeme = vrijemeTaska;
         String prioritetTaska = getIntent().getExtras().getString("prioritetTaska");
@@ -163,54 +168,81 @@ public class EditTaskFromUnfinishedTasks extends AppCompatActivity implements Vi
         if (editTaskButton.isPressed()) {
             // Get entered text
             String taskTextValue = taskName.getText().toString();
-            //date
-            String datum = taskDate.getText().toString(); // format dd-mm-yyyy se prikazuje
-            //konverzija datuma za spremanje u bazu u formatu yyyy-mm-dd
-            SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-            Date datum2 = null;
-            try {
-                datum2 = format1.parse(datum);
-            } catch (Exception ex) {
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            taskTextValue = taskTextValue.trim();
+            if(taskTextValue.equals("") || taskTextValue.equals(null)){
+                Toast.makeText(getApplicationContext(), "Enter the task name", Toast.LENGTH_LONG).show();
             }
-            //time
-            String vrijeme = taskTime.getText().toString();
-            //u date tabeli sacuvan format yyyy-mm-dd hh:mm:ss
-            String datumUBazu = format2.format(datum2) + " " + vrijeme + ":00";
-            //priority
-            task_priority = taskPriority.getSelectedItem().toString();
-            if (task_priority == " high\n")
-                prioritet = 1;
-            else if (task_priority == " medium\n")
-                prioritet = 2;
-            else if (task_priority == " low\n")
-                prioritet = 3;
-            else prioritet = 4;
-            //status
-            task_status = taskStatus.getSelectedItem().toString();
-            //note
-            String taskNoteValue = taskNote.getText().toString();
+            else {
+                //date
+                String datum = taskDate.getText().toString(); // format dd-mm-yyyy se prikazuje
+                //konverzija datuma za spremanje u bazu u formatu yyyy-mm-dd
+                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+                String datumUBazu = "";
+                Date datum2 = null;
+                if (datum.equals(null) || datum.equals("") || datum.equals("Date")) {
+                    datumUBazu = "";
+                }
+                else {
+                    try {
+                        datum2 = format1.parse(datum);
+                    } catch (Exception ex) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                    String vrijeme2 = taskTime.getText().toString();
+                    if (vrijeme2.equals("Time") || vrijeme2.equals(null) || vrijeme2.equals("")) {
+                        vrijeme2 = "00:00";
+                    }
+                    datumUBazu = format2.format(datum2) + " " + vrijeme2 + ":00";
+                }
+                //time
+                String vrijeme = taskTime.getText().toString();
+                String vrijemeUBazu = "";
+                if (vrijeme.equals("Time") || vrijeme.equals(null) || vrijeme.equals("")) {
+                    vrijemeUBazu = "";
+                } else {
+                    vrijemeUBazu = vrijeme;
+                }
+                //u date tabeli sacuvan format yyyy-mm-dd hh:mm:ss
+                //String datumUBazu = format2.format(datum2) + " " + vrijeme + ":00";
+                //priority
+                task_priority = taskPriority.getSelectedItem().toString();
+                if (task_priority == " high\n")
+                    prioritet = 1;
+                else if (task_priority == " medium\n")
+                    prioritet = 2;
+                else if (task_priority == " low\n")
+                    prioritet = 3;
+                else prioritet = 4;
+                //status
+                task_status = taskStatus.getSelectedItem().toString();
+                if (task_status.equals(" Status\n") || task_status.equals(null) || task_status.equals("")) {
+                    task_status = " to do\n";
+                }
+                //note
+                String taskNoteValue = taskNote.getText().toString();
 
-            if (!(pocetniNaziv.equals(taskTextValue)) || !(pocetniDatum.equals(datumUBazu)) || !(pocetnoVrijeme.equals(vrijeme)) || (pocetniPrioritet != prioritet) || !(pocetniStatus.equals(task_status)) || !(pocetnaNote.equals(taskNoteValue))) {
-                SQLiteDatabase db = listaHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
-                values.put(Task.TaskEntry.COL_TASK_DATE, datumUBazu);
-                values.put(Task.TaskEntry.COL_TASK_TIME, vrijeme);
-                values.put(Task.TaskEntry.COL_TASK_PRIORITY, prioritet);
-                values.put(Task.TaskEntry.COL_TASK_STATUS, task_status);
-                values.put(Task.TaskEntry.COL_TASK_NOTE, taskNoteValue);
-                values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListeTaska);
-                db.update(Task.TaskEntry.TABLE, values, "_id = " + idTaska, null);
+                if (!(pocetniNaziv.equals(taskTextValue)) || !(pocetniDatum.equals(datumUBazu)) || !(pocetnoVrijeme.equals(vrijeme)) || (pocetniPrioritet != prioritet) || !(pocetniStatus.equals(task_status)) || !(pocetnaNote.equals(taskNoteValue))) {
+                    SQLiteDatabase db = listaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Task.TaskEntry.COL_TASK_NAME, taskTextValue);
+                    values.put(Task.TaskEntry.COL_TASK_DATE, datumUBazu);
+                    values.put(Task.TaskEntry.COL_TASK_TIME, vrijemeUBazu);
+                    values.put(Task.TaskEntry.COL_TASK_PRIORITY, prioritet);
+                    values.put(Task.TaskEntry.COL_TASK_STATUS, task_status);
+                    values.put(Task.TaskEntry.COL_TASK_NOTE, taskNoteValue);
+                    values.put(Task.TaskEntry.COL_TASK_ID_LISTA, idListeTaska);
+                    db.update(Task.TaskEntry.TABLE, values, "_id = " + idTaska, null);
 
-                Toast.makeText(getApplicationContext(), "Task successfully edited!", Toast.LENGTH_LONG).show();
-                db.close();
-            } else {
-                Toast.makeText(getApplicationContext(), "You didn't make any changes", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Task successfully edited", Toast.LENGTH_LONG).show();
+                    db.close();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You didn't make any changes", Toast.LENGTH_LONG).show();
+                }
+                Intent intent = new Intent(this, UnfinishedTasks.class);
+                startActivity(intent);
+                this.finish();
             }
-            Intent intent = new Intent(this, UnfinishedTasks.class);
-            startActivity(intent);
         }
 
     }

@@ -133,8 +133,9 @@ public class AddTaskTypeOne extends AppCompatActivity implements View.OnClickLis
                 String datumUBazu = "";
                 Date datum2 = null;
                 if (datum.equals(null) || datum.equals("") || datum.equals("Date")) {
-                    datumUBazu = null;
-                } else {
+                    datumUBazu = "";
+                }
+                else {
                     try {
                         datum2 = format1.parse(datum);
                     } catch (Exception ex) {
@@ -155,7 +156,7 @@ public class AddTaskTypeOne extends AppCompatActivity implements View.OnClickLis
                 String vrijeme = taskTime.getText().toString();
                 String vrijemeUBazu = "";
                 if (vrijeme.equals("Time") || vrijeme.equals(null) || vrijeme.equals("")) {
-                    vrijemeUBazu = null;
+                    vrijemeUBazu = "";
                 } else {
                     vrijemeUBazu = vrijeme;
                 }
@@ -203,6 +204,7 @@ public class AddTaskTypeOne extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(this, ListTask.class);
                 intent.putExtra("nazivListe", passedArg);
                 startActivity(intent);
+                this.finish();
             }
         }
         //ovdje bi isao else da je kliknut back button

@@ -37,4 +37,5 @@
     <string name="help11"><b>View finished: </b>shows tasks that are done. If some of the lists screen is active, showing its finished tasks is performed. Otherwise, finished tasks from all of the lists are shown.</string>
     <string name="helpTitle"><b>Following options are available in the menu:</b></string>
     <string name="help12"><b>Return to the previous screen by touching the Back button on your phone.</b></string>
+    <string name="help13">Entering the first field in the task is obligatory, filling the other ones is optional.</string>
 </resources>
