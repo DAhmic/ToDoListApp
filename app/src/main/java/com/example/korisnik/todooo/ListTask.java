@@ -338,7 +338,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
         // Query the database
         //Cursor cursor = db.query(Task.TaskEntry.TABLE, new String[] {Task.TaskEntry._ID, Task.TaskEntry.COL_TASK_NAME}, null, null, null, null, null);
         //Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + ", " + Task.TaskEntry.COL_TASK_NAME + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ?", new String[] {idListeQuery});
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY date == ''", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY CASE WHEN date = '' THEN 2 ELSE 1 END, date", new String[] {idListeQuery});
 
         // Iterate the results
         while (cursor.moveToNext()) {
@@ -434,7 +434,7 @@ public class ListTask extends AppCompatActivity implements View.OnClickListener{
 
         ArrayList<Integer> idTaskova = new ArrayList<>();
         SQLiteDatabase db = listaHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY date == ''", new String[] {idListeQuery});
+        Cursor cursor = db.rawQuery("SELECT  " + Task.TaskEntry._ID + " FROM  Task WHERE " + Task.TaskEntry.COL_TASK_ID_LISTA + " = ? ORDER BY CASE WHEN date = '' THEN 2 ELSE 1 END, date", new String[] {idListeQuery});
 
         while (cursor.moveToNext()) {
             int indeksi = cursor.getColumnIndex(Task.TaskEntry._ID);
